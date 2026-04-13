@@ -20,7 +20,9 @@ export interface ExternalSystemDB {
   updated_at: Date
 }
 
-export type CreateExternalSystemInput = Omit<ExternalSystemDB, 'id' | 'created_at' | 'updated_at'>
+export type CreateExternalSystemInput = Omit<ExternalSystemDB, 'id' | 'created_at' | 'updated_at'> & {
+  extra_fields?: Record<string, unknown>
+}
 export type UpdateExternalSystemInput = Partial<CreateExternalSystemInput>
 
 export const externalSystemRepository = {
@@ -50,7 +52,7 @@ export const externalSystemRepository = {
       ) VALUES (
         ${data.seller_id}, ${data.sistema_nome}, ${data.sistema_tipo}, ${data.base_url ?? null}, ${data.auth_type},
         ${data.api_key ?? null}, ${data.token ?? null}, ${data.usuario ?? null}, ${data.senha_hash ?? null}, ${data.client_id ?? null}, ${data.client_secret ?? null},
-        ${data.token_expires_at ?? null}, ${data.extra_fields ? sql.json(data.extra_fields) : null}, ${data.ativo}
+        ${data.token_expires_at ?? null}, ${JSON.stringify(data.extra_fields ?? {})}, ${data.ativo}
       )
       RETURNING *
     `

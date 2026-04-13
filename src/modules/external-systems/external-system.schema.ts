@@ -12,7 +12,7 @@ export const createExternalSystemSchema = z.object({
   client_id: z.string().optional(),
   client_secret: z.string().optional(),
   token_expires_at: z.string().datetime().optional().nullable(),
-  extra_fields: z.record(z.any()).optional().nullable(),
+  extra_fields: z.record(z.unknown()).optional().default({}),
   ativo: z.boolean().default(true).optional(),
 })
 
