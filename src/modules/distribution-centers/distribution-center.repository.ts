@@ -71,14 +71,14 @@ export const distributionCenterRepository = {
   },
 
   async update(sql: postgres.Sql, id: string, sellerId: string, data: UpdateDistributionCenterInput): Promise<DistributionCenterDB | null> {
-    const updates: Record<string, any> = { ...data, updated_at: sql\`NOW()\` }
+    const updates: Record<string, any> = { ...data, updated_at: sql`NOW()` }
     for (const key of Object.keys(updates)) {
       if (updates[key] === undefined) delete updates[key]
     }
     
     const [dc] = await sql<DistributionCenterDB[]>`
       UPDATE distribution_centers
-      SET \${sql(updates as any)}
+      SET ${sql(updates as any)}
       WHERE id = ${id} AND seller_id = ${sellerId} AND ativo = true
       RETURNING *
     `

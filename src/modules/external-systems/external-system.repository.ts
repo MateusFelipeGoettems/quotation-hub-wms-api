@@ -58,7 +58,7 @@ export const externalSystemRepository = {
   },
 
   async update(sql: postgres.Sql, id: string, sellerId: string, data: UpdateExternalSystemInput): Promise<ExternalSystemDB | null> {
-    const updates: Record<string, any> = { ...data, updated_at: sql\`NOW()\` }
+    const updates: Record<string, any> = { ...data, updated_at: sql`NOW()` }
     
     // Convert undefined to delete
     for (const key of Object.keys(updates)) {
@@ -72,7 +72,7 @@ export const externalSystemRepository = {
     
     const [system] = await sql<ExternalSystemDB[]>`
       UPDATE external_systems
-      SET \${sql(updates as any)}
+      SET ${sql(updates as any)}
       WHERE id = ${id} AND seller_id = ${sellerId} AND ativo = true
       RETURNING *
     `
