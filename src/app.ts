@@ -10,13 +10,16 @@ import { ZodError } from 'zod'
 
 export function buildApp() {
   const app = Fastify({
-    logger: {
-      level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
-      transport:
-        process.env.NODE_ENV !== 'production'
-          ? { target: 'pino-pretty', options: { translateTime: 'HH:MM:ss Z' } }
-          : undefined,
-    },
+    logger:
+      process.env.NODE_ENV === 'production'
+        ? { level: 'info' }
+        : {
+            level: 'info',
+            transport: {
+              target: 'pino-pretty',
+              options: { colorize: true },
+            },
+          },
   })
 
   // Plugins
